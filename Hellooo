@@ -1,0 +1,15 @@
+import pandas as pd
+import calendar
+file = pd.read_csv("Data.csv",error_bad_lines=False)
+headerList = ['Date','Hour','A1','A2','A3','A4']
+file.to_csv("Data1.csv", header=headerList, index=False)
+file2 = pd.read_csv("Data1.csv")
+file2["Date1"] = pd.to_datetime(file2["Date"])
+file2["Month"]=file2["Date1"].dt.month
+file2["Year"]=file2["Date1"].dt.year
+file2['Index']=file['Date'].index
+file2['Date'].index=file2['Index']
+file2['Date'] = pd.to_datetime(file2['Date'])
+file2['Month'] = file2['Date'].dt.month_name(locale = 'English')
+file2["Full Name"] = file2['Year'].astype(str) +" "+ file2["Month"]
+file2.to_excel('Final_data.xlsx', index = None)
